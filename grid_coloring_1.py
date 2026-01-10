@@ -9,9 +9,6 @@ import threading
 
 # Fast I/O
 input = sys.stdin.readline
-def print(x):
-    sys.stdout.write(x)
-    sys.stdout.flush()
 
 # Common imports
 from collections import defaultdict, deque, Counter
@@ -41,33 +38,36 @@ def lcm(a, b):
 # =======================
 
 def solve():
-    # Example input
-    INF = 10**9+7
-    n = int(input())
-    arr = [[INF]*n for i in range(n)]
-    moves = [[-1,-2],[-1,2],[1,-2],[1,2],[2,1],[2,-1],[-2,1],[-2,-1]]
-    q = deque()
-    q.append([0,0])
-    arr[0][0] = 0
-    while q:
-        x,y = q.popleft()
-        move = arr[x][y]
-        for dx,dy in moves:
-            if x+dx < n and y+dy < n and x+dx >= 0 and y+dy >= 0 and arr[x+dx][y+dy] == INF:
-                arr[x+dx][y+dy] = move+1
-                q.append([x+dx,y+dy])
-    output = [[str(arr[i][j]) for j in range(n)] for i in range(n)]
-    for layer in output:
-        sys.stdout.write(" ".join(layer)+"\n")
+    n, m = map(int, input().split())
+    grid = [input().strip() for _ in range(n)]
+
+    colors = ['A', 'B', 'C', 'D']
+    ans = [[''] * m for _ in range(n)]
+
+    for i in range(n):
+        for j in range(m):
+            forbidden = set()
         
+        # Original character must be changed
+            forbidden.add(grid[i][j])
+        
+        # Check top neighbor
+            if i > 0:
+                forbidden.add(ans[i-1][j])
+        
+        # Check left neighbor
+            if j > 0:
+                forbidden.add(ans[i][j-1])
+        
+        # Choose any valid color
+            for c in colors:
+                if c not in forbidden:
+                    ans[i][j] = c
+                    break
 
-    
-            
-
-
-    
-    
-
+# Print result
+    for row in ans:
+        print("".join(row))
 
 
 # =======================
