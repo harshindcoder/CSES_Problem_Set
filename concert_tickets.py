@@ -4,14 +4,10 @@
 # =======================
 
 import sys
-import math
-import threading
 
 # Fast I/O
 input = sys.stdin.readline
-def print(x):
-    sys.stdout.write(x)
-    sys.stdout.flush()
+
 
 # Common imports
 from collections import defaultdict, deque, Counter
@@ -24,28 +20,23 @@ import bisect
 INF = float('inf')
 MOD = 10**9 + 7
 
-# =======================
-# Main Logic
-# =======================
-
 def solve():
-    arr = list(map(int, input().split()))
-    n,x = arr[0],arr[1]
-    A = list(map(int, input().split()))
-    A.sort()
-    ans = 0
-    i,j = 0,n-1
-    while i <= j:
-        if i < j and A[i] + A[j] <= x:
-            ans += 1
-            i+=1
-            j-=1
-        else:
-            ans += 1
-            j-=1
-    
-    sys.stdout.write(str(ans)+"\n")
+    n, m = map(int, input().split())
+    tickets = list(map(int, input().split()))
+    customers = list(map(int, input().split()))
 
+    tickets.sort()  # sort ticket prices
+    ans = []
+    for t in customers:
+        # index of first element > t
+        idx = bisect.bisect_right(tickets, t) - 1
+
+        if idx >= 0:
+            ans.append(str(tickets[idx]))
+            tickets.pop(idx)   # remove used ticket
+        else:
+            ans.append("-1")
+    sys.stdout.write("\n".join(ans))
 
 
 # =======================
