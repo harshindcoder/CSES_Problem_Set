@@ -1,8 +1,3 @@
-# =======================
-# Python CP Template
-# (bits/stdc++.h equivalent)
-# =======================
-
 import sys
 
 # Fast I/O
